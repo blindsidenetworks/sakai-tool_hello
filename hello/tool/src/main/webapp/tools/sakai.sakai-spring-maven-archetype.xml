@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registration>
+	<tool id="sakai.hello" 
+		title="My Sakai App hello-tool" 
+		description="This description is set in the hello-tool registration file, found in the webapp/tools directory">
+
+		<category name="course" />
+      	<category name="project" />
+
+		<configuration name="functions.require" /> 
+		
+    </tool>
+</registration>
+
