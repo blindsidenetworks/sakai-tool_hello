@@ -3,6 +3,7 @@ package org.sakaiproject.hello.tool.entity;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sakaiproject.entitybroker.EntityReference;
 import org.sakaiproject.entitybroker.entityprovider.capabilities.RESTful;
 import org.sakaiproject.entitybroker.util.AbstractEntityProvider;
@@ -32,6 +33,8 @@ import org.sakaiproject.hello.logic.HelloManager;
 import org.sakaiproject.hello.model.Hello;
 
 public class HelloWorldEntityProvider extends AbstractEntityProvider implements RESTful {
+
+	private static final Logger log = Logger.getLogger(HelloWorldEntityProvider.class);
 
 	public String getEntityPrefix()
 	{
@@ -76,6 +79,16 @@ public class HelloWorldEntityProvider extends AbstractEntityProvider implements 
 	public String[] getHandledInputFormats() {
         return new String[] { Formats.HTML, Formats.JSON, Formats.FORM };
     }
+
+	// --- ActionsExecutable (Custom actions) ----------------------------------------
+	@EntityCustomAction(viewKey=EntityView.VIEW_LIST)
+	public String isMeetingRunning(Map<String,Object> params)
+	{
+		if(log.isDebugEnabled()) log.debug("isMeetingRunning");
+		String meetingID = (String) params.get("id");
+		
+		return Boolean.toString( true );
+	}
 
 	
 

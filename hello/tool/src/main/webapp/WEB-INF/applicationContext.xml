@@ -11,8 +11,7 @@
     -->
     
     <!-- Web entity provider -->
-    <bean name="/hello.htm"
-        parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
+    <bean parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
         class="org.sakaiproject.hello.tool.entity.HelloWorldEntityProvider">
     </bean>
            
