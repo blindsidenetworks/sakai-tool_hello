@@ -1,5 +1,8 @@
 package org.sakaiproject.hello.logic;
 
+import java.util.Locale;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +15,7 @@ import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
+import org.sakaiproject.util.ResourceLoader;
 
 /**
  * Implementation of {@link SakaiProxy}
@@ -43,6 +47,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public String getCurrentUserDisplayName() {
 	   return userDirectoryService.getCurrentUser().getDisplayName();
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getCurrentToolId() {
+        return toolManager.getCurrentPlacement().getId();
+    }
 	
 	/**
  	* {@inheritDoc}
@@ -79,6 +90,30 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return skinRepo + "/" + skin + "/tool.css";
 	}
 	
+	/**
+ 	* {@inheritDoc}
+ 	*/
+	public String getSakaiSkin()
+	{
+		String skin = serverConfigurationService.getString("skin.default");
+		String siteSkin = siteService.getSiteSkin(getCurrentSiteId());
+		return siteSkin != null ? siteSkin : (skin != null ? skin : "default");
+	}
+
+	/**
+ 	* {@inheritDoc}
+ 	*/
+	public String getUserLanguageCode()
+	{
+		Locale locale = (new ResourceLoader()).getLocale();
+		String languageCode = locale.getLanguage();
+		if(!"".equals(locale.getCountry()))
+		{
+			languageCode += "_" + locale.getCountry();
+		}
+		return languageCode;
+	}
+
 	/**
 	 * init - perform any actions required here for when this bean starts up
 	 */

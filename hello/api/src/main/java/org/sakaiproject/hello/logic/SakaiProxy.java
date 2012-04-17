@@ -26,7 +26,14 @@ public interface SakaiProxy {
 	 */
 	public String getCurrentUserDisplayName();
 	
-	/**
+    /**
+    * Get current tool id
+    * 
+    * @return
+    */
+    public String getCurrentToolId();
+
+    /**
 	 * Is the current user a superUser? (anyone in admin realm)
 	 * @return
 	 */
@@ -54,4 +61,9 @@ public interface SakaiProxy {
 	 * @return
 	 */
 	public String getToolSkinCSS(String skinRepo);
+
+	public String getSakaiSkin();
+
+	public String getUserLanguageCode();
+
 }

@@ -18,9 +18,9 @@
 		
 	</bean>
 	
-	<!-- ProjectLogic -->
-	<bean id="org.sakaiproject.hello.logic.ProjectLogic"
-    	class="org.sakaiproject.hello.logic.ProjectLogicImpl"
+	<!-- HelloManager -->
+	<bean id="org.sakaiproject.hello.logic.HelloManager"
+    	class="org.sakaiproject.hello.logic.HelloManagerImpl"
     	init-method="init" />
 	
 

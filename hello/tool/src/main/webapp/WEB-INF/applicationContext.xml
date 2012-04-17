@@ -4,5 +4,16 @@
 <beans>
 
 	<!-- We need this file to satisfy Spring, but we don't need anything in it since we use Wicket's dependency injection -->
-       
+    <!-- Entity provider implementation 
+    <bean id="org.sakaiproject.evaluation.logic.entity.HelloEntityProvider"
+        class="org.sakaiproject.evaluation.logic.impl.entity.HelloEntityProviderImpl">
+    </bean>
+    -->
+    
+    <!-- Web entity provider -->
+    <bean name="/hello.htm"
+        parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
+        class="org.sakaiproject.hello.tool.entity.HelloWorldEntityProvider">
+    </bean>
+           
 </beans>

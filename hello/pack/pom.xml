@@ -8,6 +8,7 @@
 	</parent>
 	<groupId>org.sakaiproject.hello</groupId>
 	<artifactId>hello-pack</artifactId>
+    <name>Hello Pack</name>
 
 	<packaging>sakai-component</packaging>
 

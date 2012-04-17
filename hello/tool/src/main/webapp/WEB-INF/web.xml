@@ -55,6 +55,5 @@
     <servlet-name>springapp</servlet-name>
     <url-pattern>*.htm</url-pattern>
   </servlet-mapping>
-	
 
 </web-app>

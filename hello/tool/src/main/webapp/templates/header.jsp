@@ -8,7 +8,7 @@
 
     <script src="/library/js/headscripts.js" language="JavaScript" type="text/javascript"></script>
 
-    <title>Sakai-Spring</title>
+    <title>Hello Tool</title>
 </head>
 <body onload="<%=request.getAttribute("sakai.html.body.onload")%>">
 <div class="portletBody">

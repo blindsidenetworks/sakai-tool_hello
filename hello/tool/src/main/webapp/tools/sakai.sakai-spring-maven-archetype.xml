@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <registration>
 	<tool id="sakai.hello" 
-		title="My Sakai App hello-tool" 
-		description="This description is set in the hello-tool registration file, found in the webapp/tools directory">
+		title="Hello" 
+		description="Hello is a Hello World tool that can work as a base for new tools building">
 
 		<category name="course" />
       	<category name="project" />
