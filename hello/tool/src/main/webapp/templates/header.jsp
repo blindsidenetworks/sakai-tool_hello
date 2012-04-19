@@ -5,9 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link media="all" href="/library/skin/tool_base.css" rel="stylesheet" type="text/css" />
     <link media="all" href="/library/skin/default/tool.css" rel="stylesheet" type="text/css" />
+    <link media="all" href="/portal/tool/${currentToolId}/css/eportfolio.css" rel="stylesheet" type="text/css" />
 
-    <script src="/library/js/headscripts.js" language="JavaScript" type="text/javascript"></script>
+    <link media="all" href="./assets/css/main.css" rel="stylesheet" type="text/css" />
 
+    <!-- Sakai Libraries -->
+    <script type="text/javascript" language="JavaScript" src="/library/editor/FCKeditor/fckeditor.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/library/editor/fckeditor.launch.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/library/js/headscripts.js"></script>
+    
     <title>Hello Tool</title>
 </head>
 <body onload="<%=request.getAttribute("sakai.html.body.onload")%>">

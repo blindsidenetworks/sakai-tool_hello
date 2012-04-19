@@ -82,12 +82,11 @@ public class HelloWorldEntityProvider extends AbstractEntityProvider implements 
 
 	// --- ActionsExecutable (Custom actions) ----------------------------------------
 	@EntityCustomAction(viewKey=EntityView.VIEW_LIST)
-	public String isMeetingRunning(Map<String,Object> params)
+	public String test(Map<String,Object> params)
 	{
-		if(log.isDebugEnabled()) log.debug("isMeetingRunning");
-		String meetingID = (String) params.get("id");
+		if(log.isDebugEnabled()) log.debug("test");
 		
-		return Boolean.toString( true );
+		return "Direct queries are actually working!";
 	}
 
 	
