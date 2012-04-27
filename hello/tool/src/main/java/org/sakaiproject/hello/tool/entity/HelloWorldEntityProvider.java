@@ -1,9 +1,16 @@
 package org.sakaiproject.hello.tool.entity;
 
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
+
+import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.entitybroker.EntityReference;
 import org.sakaiproject.entitybroker.entityprovider.capabilities.RESTful;
 import org.sakaiproject.entitybroker.util.AbstractEntityProvider;
@@ -32,10 +39,14 @@ import org.sakaiproject.entitybroker.exception.EntityNotFoundException;
 import org.sakaiproject.hello.logic.HelloManager;
 import org.sakaiproject.hello.model.Hello;
 
+@Setter	@Getter
 public class HelloWorldEntityProvider extends AbstractEntityProvider implements RESTful {
 
-	private static final Logger log = Logger.getLogger(HelloWorldEntityProvider.class);
+	private static final Logger logger = Logger.getLogger(HelloWorldEntityProvider.class);
 
+	private HelloManager helloManager = null;
+	private UserDirectoryService userDirectoryService = null;
+	
 	public String getEntityPrefix()
 	{
 		return HelloManager.ENTITY_PREFIX;
@@ -84,11 +95,31 @@ public class HelloWorldEntityProvider extends AbstractEntityProvider implements 
 	@EntityCustomAction(viewKey=EntityView.VIEW_LIST)
 	public String test(Map<String,Object> params)
 	{
-		if(log.isDebugEnabled()) log.debug("test");
+		if(logger.isDebugEnabled()) logger.debug("test");
 		
 		return "Direct queries are actually working!";
 	}
 
+	@EntityCustomAction(viewKey=EntityView.VIEW_SHOW)
+	public ActionReturn getSettings(OutputStream out, EntityView view, EntityReference ref)
+			throws Exception {
+
+		if(logger.isDebugEnabled()) logger.debug("getSettings");
+		
+		Map<String, String> response = new HashMap<String, String>();
+		try	{
+			response.put("version", "1.0");
+			response.put("userId", userDirectoryService.getCurrentUser().getId());
+			response.put("userDisplayName", userDirectoryService.getCurrentUser().getDisplayName());
+		
+		} catch(Exception e) {
+			logger.error("there was an error " + e.toString());
+		
+		}
+
+		return new ActionReturn( response );
+	
+	}
 	
 
 }

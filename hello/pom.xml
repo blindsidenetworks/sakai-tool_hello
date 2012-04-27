@@ -29,6 +29,11 @@
     </developers>
 
     <properties>
+        <!-- Build tracking  -->
+        <maven.build.timestamp.format>yyMMdd_HHmm</maven.build.timestamp.format>
+        <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+        <buildSerial>20120427_164500</buildSerial>
+        <!-- Regular properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 	

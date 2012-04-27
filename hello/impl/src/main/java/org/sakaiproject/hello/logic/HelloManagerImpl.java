@@ -25,8 +25,8 @@ public class HelloManagerImpl implements HelloManager {
 		
 		List<Hello> hellos = new ArrayList<Hello>();
 		
-		hellos.add(new Hello(1,"hello"));
-		hellos.add(new Hello(2,"world"));
+		hellos.add(new Hello("1","hello"));
+		hellos.add(new Hello("2","world"));
 		
 		return hellos;
 		

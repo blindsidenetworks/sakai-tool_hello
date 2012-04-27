@@ -20,40 +20,28 @@ public class HelloWorldController implements Controller {
 
     private Logger logger = Logger.getLogger(HelloWorldController.class);
 
-	@Setter
-	@Getter
+	@Setter	@Getter
 	private SakaiProxy sakaiProxy = null;
-
-	@Setter
-	@Getter
+	@Setter	@Getter
 	private HelloManager helloManager = null;
 	
-	public ModelAndView handleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) 
+			throws Exception {
 		
-        // build url
-        StringBuilder url = new StringBuilder("/hello-tool/hello.html?");
-        url.append("&siteId=").append(sakaiProxy.getCurrentSiteId());
-        //url.append("&timestamp=").append(sakaiProxy.getServerTimeInUserTimezone());
-        //url.append("&timezoneoffset=").append(sakaiProxy.getUserTimezone());
-        url.append("&language=").append(sakaiProxy.getUserLanguageCode());
-        url.append("&skin=").append(sakaiProxy.getSakaiSkin());
+		if(logger.isDebugEnabled()) logger.debug("handleRequest");
 
-        logger.debug("doGet(): " + url.toString());
-        
-        // redirect...
-        //response.sendRedirect(url.toString());
-		
-        //return null;
-		
-		
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("currentSiteId", sakaiProxy.getCurrentSiteId());
 		map.put("userDisplayName", sakaiProxy.getCurrentUserDisplayName());
         map.put("currentToolId", sakaiProxy.getCurrentToolId());
         map.put("helloManager", helloManager.getHellos().toString() );
+
+		map.put("siteId", sakaiProxy.getCurrentSiteId());
+		map.put("language", sakaiProxy.getUserLanguageCode());
+		map.put("skin", sakaiProxy.getSakaiSkin());
+		//map.put("timezoneoffset", sakaiProxy.getUserTimezone());
         
-        return new ModelAndView("index", map);
+        return new ModelAndView("hello", map);
 	}
 
 }
