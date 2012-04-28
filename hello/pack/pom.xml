@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>hello</artifactId>
-		<groupId>org.sakaiproject.hello</groupId>
-			<version>1.0</version>
-	</parent>
-	<groupId>org.sakaiproject.hello</groupId>
-	<artifactId>hello-pack</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>hello</artifactId>
+        <groupId>org.sakaiproject.hello</groupId>
+        <version>1.0.1</version>
+    </parent>
+    <groupId>org.sakaiproject.hello</groupId>
+    <artifactId>hello-pack</artifactId>
     <name>Hello Pack</name>
 
-	<packaging>sakai-component</packaging>
+    <packaging>sakai-component</packaging>
 
-	<properties>
-		<deploy.target>components</deploy.target>
-	</properties>
+    <properties>
+        <deploy.target>components</deploy.target>
+    </properties>
 
-	<dependencies>
-		<!-- internal dependencies -->
-		<dependency>
-			<groupId>org.sakaiproject.hello</groupId>
-			<artifactId>hello-impl</artifactId>
-			<version>1.0</version>
-		</dependency>
-	</dependencies>
-	<build>
-		<!-- configure the build to use the standard maven structure -->
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.sakaiproject.maven.plugins</groupId>
-				<artifactId>sakai</artifactId>
-				<configuration>
-					<warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
-				</configuration>
-			</plugin>
-
-		</plugins>
-
-	</build>
+    <dependencies>
+        <!-- internal dependencies -->
+        <dependency>
+            <groupId>org.sakaiproject.hello</groupId>
+            <artifactId>hello-impl</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <!-- configure the build to use the standard maven structure -->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <inherited>true</inherited>
+                <groupId>org.sakaiproject.maven.plugins</groupId>
+                <artifactId>sakai</artifactId>
+                <configuration>
+                    <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -5,7 +5,7 @@
 	<groupId>org.sakaiproject.hello</groupId>
 	<artifactId>hello</artifactId>
 	<name>Hello</name>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 	<description>Hello is a Hello World tool that can work as a base for new tools building</description>
 
@@ -32,8 +32,12 @@
         <!-- Build tracking  -->
         <maven.build.timestamp.format>yyMMdd_HHmm</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
-        <buildSerial>20120427_164500</buildSerial>
+        <buildSerial>20120428_132500</buildSerial>
         <!-- Regular properties -->
+        <entitybroker.version>[1.3.9,1.3.20)</entitybroker.version>
+        <entitybroker-utils.version>1.3.7</entitybroker-utils.version>
+        <log4j.version>1.2.14</log4j.version>
+        <lombok.version>0.9.3</lombok.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 	
@@ -48,6 +52,12 @@
             <!-- project dependencies -->
             <dependency>
                 <groupId>org.sakaiproject.hello</groupId>
+                <artifactId>hello-tool</artifactId>
+                <version>${project.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.sakaiproject.hello</groupId>
                 <artifactId>hello-api</artifactId>
                 <version>${project.version}</version>
                 <scope>provided</scope>
@@ -58,17 +68,31 @@
                 <version>${project.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
+            <!-- EntityBroker -->
+            <dependency>
+                <groupId>org.sakaiproject.entitybroker</groupId>
+                <artifactId>entitybroker-api</artifactId>
+                <version>${entitybroker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sakaiproject.entitybroker</groupId>
+                <artifactId>entitybroker-utils</artifactId>
+                <version>${entitybroker-utils.version}</version>
+            </dependency>
+            
+            <!-- Commons -->
 	        <dependency>
 	            <groupId>org.projectlombok</groupId>
 	            <artifactId>lombok</artifactId>
-	            <version>0.9.3</version>
+	            <version>${lombok.version}</version>
 	            <type>jar</type>
 	            <scope>provided</scope>
 	        </dependency>
 	        <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
-                <version>1.2.14</version>
+                <version>${log4j.version}</version>
             </dependency>
 	    </dependencies>
 	</dependencyManagement>

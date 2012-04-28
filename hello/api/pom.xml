@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>hello</artifactId>
 		<groupId>org.sakaiproject.hello</groupId>
-		<version>1.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<groupId>org.sakaiproject.hello</groupId>
 	<artifactId>hello-api</artifactId>

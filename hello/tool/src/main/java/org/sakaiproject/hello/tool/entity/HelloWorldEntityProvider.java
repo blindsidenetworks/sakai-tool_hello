@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
-import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.entitybroker.EntityReference;
 import org.sakaiproject.entitybroker.entityprovider.capabilities.RESTful;
 import org.sakaiproject.entitybroker.util.AbstractEntityProvider;
@@ -35,6 +34,8 @@ import org.sakaiproject.entitybroker.entityprovider.search.Restriction;
 import org.sakaiproject.entitybroker.entityprovider.search.Search;
 import org.sakaiproject.entitybroker.exception.EntityException;
 import org.sakaiproject.entitybroker.exception.EntityNotFoundException;
+import org.sakaiproject.user.api.UserDirectoryService;
+import org.sakaiproject.util.ResourceLoader;
 
 import org.sakaiproject.hello.logic.HelloManager;
 import org.sakaiproject.hello.model.Hello;
@@ -108,7 +109,9 @@ public class HelloWorldEntityProvider extends AbstractEntityProvider implements 
 		
 		Map<String, String> response = new HashMap<String, String>();
 		try	{
-			response.put("version", "1.0");
+	        ResourceLoader toolParameters = new ResourceLoader("Tool");
+	        response.put("version", toolParameters.getString("hello_version") );
+	        response.put("buildSerial", toolParameters.getString("hello_buildSerial") );
 			response.put("userId", userDirectoryService.getCurrentUser().getId());
 			response.put("userDisplayName", userDirectoryService.getCurrentUser().getDisplayName());
 		

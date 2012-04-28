@@ -84,7 +84,7 @@
 <body onload="<%=request.getAttribute("sakai.html.body.onload")%>">
 
 <div id="hello_toolbar" class="portletBody">
-    <!--  Toolbar Start -->
+    <!-- Toolbar Start -->
     <ul class="navIntraTool actionToolBar" role="menu">
        <li class="firstToolBarItem" role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-list" title="Hello Item List">Hello Item List</a></span></li>
        <li role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-new" title="Add Hello Item">Add Hello Item</a></span></li>
@@ -96,9 +96,14 @@
 <div id="hello_messages" style="display: none"></div>
 <div id="hello_container">
     <div id="hello_content">
+    This is a test
     </div>
 </div>
 <div id="hello_footer"></div>
+
+ 
+<jsp:directive.include file="/templates/footer.jsp"/>
+
 
 </body>
 </html>
