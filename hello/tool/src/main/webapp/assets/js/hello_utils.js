@@ -21,9 +21,9 @@ var HelloUtils;
 	if(HelloUtils == null)
 		HelloUtils = new Object();
 		
-    var bbbUserSelectionOptions = null;
-	var bbbTrimpathModifiers = null;
-	var bbbTrimpathMacros = null;
+    var helloUserSelectionOptions = null;
+	var helloTrimpathModifiers = null;
+	var helloTrimpathMacros = null;
 
 	// Get the current user from EB
 	HelloUtils.getCurrentUser = function() {
@@ -36,7 +36,7 @@ var HelloUtils;
 				user = u;
 			},
 			error : function(xmlHttpRequest,status,error) {
-				HelloUtils.handleError(bbb_err_curr_user, xmlHttpRequest.status, xmlHttpRequest.statusText);
+				HelloUtils.handleError(hello_err_curr_user, xmlHttpRequest.status, xmlHttpRequest.statusText);
 			}
 	  	});
 
@@ -54,7 +54,7 @@ var HelloUtils;
 				maintainRole = site.maintainRole;
 			},
 			error : function(xmlHttpRequest,status,error) {
-				HelloUtils.handleError(bbb_err_maintain_role, xmlHttpRequest.status, xmlHttpRequest.statusText);
+				HelloUtils.handleError(hello_err_maintain_role, xmlHttpRequest.status, xmlHttpRequest.statusText);
 			}
 	  	});
 
@@ -83,51 +83,51 @@ var HelloUtils;
     // Get user selection types
     HelloUtils.getUserSelectionTypes = function() {
     	var selTypes = {
-            all:    {id: 'all', title: bbb_seltype_all},
-            user:   {id: 'user', title: bbb_seltype_user},
-            group:  {id: 'group', title: bbb_seltype_group},
-            role:   {id: 'role', title: bbb_seltype_role}
+            all:    {id: 'all', title: hello_seltype_all},
+            user:   {id: 'user', title: hello_seltype_user},
+            group:  {id: 'group', title: hello_seltype_group},
+            role:   {id: 'role', title: hello_seltype_role}
     	};
     	return selTypes;
     }
 	
 	// Get user selection options from EB
     HelloUtils.getUserSelectionOptions = function() {
-        if(bbbUserSelectionOptions == null) {
+        if(helloUserSelectionOptions == null) {
             jQuery.ajax( {
-                url : "/direct/bbb-meeting/getUserSelectionOptions.json?siteId=" + bbbSiteId,
+                url : "/direct/hello-meeting/getUserSelectionOptions.json?siteId=" + helloSiteId,
                 dataType : "json",
                 async : false,
                 success : function(data) {
-                    bbbUserSelectionOptions = data;
+                    helloUserSelectionOptions = data;
                 },
                 error : function(xmlHttpRequest,status,error) {
-                    HelloUtils.handleError(bbb_err_user_sel_options, xmlHttpRequest.status, xmlHttpRequest.statusText);
+                    HelloUtils.handleError(hello_err_user_sel_options, xmlHttpRequest.status, xmlHttpRequest.statusText);
                 }
             });
         }
 
-        return bbbUserSelectionOptions;
+        return helloUserSelectionOptions;
     }
 	
 	// Get the user permissions
 	HelloUtils.getUserPermissions = function() {
-		var perms = null;
+		var perms = Object();
         jQuery.ajax( {
-            url: "/direct/site/"+bbbSiteId+"/userPerms.json",
+            url: "/direct/site/" + helloToolSettings.siteId + "/userPerms.json",
             dataType : "json",
             async : false,
             success : function(userPermissions) {
             	if(userPermissions != null) perms = userPermissions.data;
-            	if(bbbCurrentUser.id == 'admin') perms.push("bbb.admin");
+            	if(helloToolSettings.userId == 'admin') perms.push("hello.admin");
             },
             error : function(xmlHttpRequest,status,error) {
-            	if(bbbCurrentUser.id == 'admin') {
+            	if(helloToolSettings.userId == 'admin') {
             		// Workaround for SAK-18534
-            		perms = ["bbb.admin", "bbb.create", "bbb.edit.any", "bbb.delete.any", "bbb.participate",
+            		perms = ["hello.admin", "hello.create", "hello.edit.any", "hello.delete.any", "hello.participate",
                              "site.upd", "site.viewRoster", "calendar.new", "calendar.revise.any", "calendar.delete.any"];
             	}else{
-                    HelloUtils.handleError(bbb_err_get_user_permissions, xmlHttpRequest.status, xmlHttpRequest.statusText);
+                    HelloUtils.handleError(hello_err_get_user_permissions, xmlHttpRequest.status, xmlHttpRequest.statusText);
             	}
             }
         });
@@ -140,7 +140,7 @@ var HelloUtils;
 		interval.meetings = 30000;
 		interval.recordings = 60000;
         jQuery.ajax( {
-            url: "/direct/bbb-meeting/getAutorefreshInterval.json",
+            url: "/direct/hello-meeting/getAutorefreshInterval.json",
             dataType : "json",
             async : false,
             success : function(autorefresh) {
@@ -209,8 +209,8 @@ var HelloUtils;
                             && request.status != 200 && request.status != 201 
                             && request.status != 204 && request.status != 404 && request.status != 1223){
                         if(request.status == 403) {
-                            HelloUtils.handleError(bbb_err_no_permissions, request.status, request.statusText);
-                        	jQuery('#bbb_content').empty();
+                            HelloUtils.handleError(hello_err_no_permissions, request.status, request.statusText);
+                        	jQuery('#hello_content').empty();
                         }else{
                             // Handled by error() callbacks
                         }
@@ -225,9 +225,9 @@ var HelloUtils;
 		var severity = 'error';
 		var description = '';
 		if(statusCode || statusMessage) {
-			description += bbb_err_server_response + ': ';
+			description += hello_err_server_response + ': ';
             if(statusMessage) description += statusMessage;
-            if(statusCode) description += ' ['+bbb_err_code+': ' + statusCode + ']';
+            if(statusCode) description += ' ['+hello_err_code+': ' + statusCode + ']';
 		}
 		if(message && (statusCode || statusMessage)) {
 		    HelloUtils.showMessage(description, severity, message);
@@ -248,8 +248,8 @@ var HelloUtils;
     	var useAlternateStyle = true;
     	if(typeof hideMsgBody == 'undefined' && msgTitle && msgBody) hideMsgBody = true;
     	
-    	if( !bbbErrorLog[msgBody] ){
-			bbbErrorLog[msgBody] = true;
+    	if( !helloErrorLog[msgBody] ){
+			helloErrorLog[msgBody] = true;
 
 	        // severity
 	        var msgClass = null;
@@ -263,12 +263,12 @@ var HelloUtils;
 	        // add contents
 	        var id = Math.floor(Math.random()*1000);
 	        var msgId = 'msg-'+id;
-	        var msgDiv = jQuery('<div class="bbb_message" id="'+msgId+'"></div>');
-	        var msgsDiv = jQuery('#bbb_messages').append(msgDiv);
+	        var msgDiv = jQuery('<div class="hello_message" id="'+msgId+'"></div>');
+	        var msgsDiv = jQuery('#hello_messages').append(msgDiv);
 	        var message = jQuery('<div class="'+msgClass+'"></div>');
 	        if(msgTitle && msgTitle != '') {
 	            message.append('<h4>'+msgTitle+'</h4>');
-	            if(hideMsgBody) message.append('<span id="msgShowDetails-'+id+'">&nbsp;<small>(<a href="#" onclick="jQuery(\'#msgBody-'+id+'\').slideDown();jQuery(\'#msgShowDetails-'+id+'\').hide();HelloUtils.adjustFrameHeight();return false;">'+bbb_err_details+'</a>)</small></span>');
+	            if(hideMsgBody) message.append('<span id="msgShowDetails-'+id+'">&nbsp;<small>(<a href="#" onclick="jQuery(\'#msgBody-'+id+'\').slideDown();jQuery(\'#msgShowDetails-'+id+'\').hide();HelloUtils.adjustFrameHeight();return false;">'+hello_err_details+'</a>)</small></span>');
 	        }
 	        jQuery('<p class="closeMe">  (x) </p>').click(function(){ HelloUtils.hideMessage(msgId); }).appendTo(message);
 	        if(msgBody) {
@@ -288,19 +288,19 @@ var HelloUtils;
         
     /** Hide message box */
     HelloUtils.hideMessage = function(id) {
-    	delete bbbErrorLog;
-    	bbbErrorLog = new Object();
+    	delete helloErrorLog;
+    	helloErrorLog = new Object();
     	if(id) {
     		jQuery('#'+id).fadeOut();
     	}else{
-            jQuery('#bbb_messages').empty().hide();
+            jQuery('#hello_messages').empty().hide();
     	}
     }
     
     /** Show an ajax indicator at the following DOM selector */
     HelloUtils.showAjaxIndicator = function(outputSelector) {
     	jQuery(outputSelector).empty()
-            .html('<img src="images/ajaxload.gif" alt="..." class="bbb_imgIndicator"/>')
+            .html('<img src="images/ajaxload.gif" alt="..." class="hello_imgIndicator"/>')
             .show();
     }
 
@@ -326,19 +326,19 @@ var HelloUtils;
         }
         jQuery(textArea)
            .hide()
-           .before('<div id="'+fakeTextAreaId+'" class="inlineFCKEditor"><span id="'+fakeTextAreaInstrId+'" class="inlineFCKEditorInstr">'+bbb_click_to_edit+'</span>'+textAreaContents+'</div>');
+           .before('<div id="'+fakeTextAreaId+'" class="inlineFCKEditor"><span id="'+fakeTextAreaInstrId+'" class="inlineFCKEditorInstr">'+hello_click_to_edit+'</span>'+textAreaContents+'</div>');
         
         // Apply FCKEditor 
         var applyFCKEditor = function() {
             jQuery('#'+fakeTextAreaId).hide();
             jQuery(this).unbind('click');
             jQuery('#'+fakeTextAreaInstrId).unbind('mouseenter').unbind('mouseleave');
-            jQuery('#bbb_meeting_name_field').unbind('keydown');
+            jQuery('#hello_meeting_name_field').unbind('keydown');
             // add FCKeditor
             width = !width ? '600' : width;
             height = !height ? '320' : height;
             var oFCKeditor = new FCKeditor(textAreaId);
-            var collectionId = '/group/' + bbbSiteId + '/';
+            var collectionId = '/group/' + helloSiteId + '/';
             oFCKeditor.BasePath = "/library/editor/FCKeditor/";
             oFCKeditor.Width = width;
             oFCKeditor.Height = height ;
@@ -361,7 +361,7 @@ var HelloUtils;
         }).bind('mouseleave', function() {
             jQuery('#'+fakeTextAreaInstrId).fadeOut();
         }).one('click', applyFCKEditor);
-        jQuery('#bbb_meeting_name_field').bind('keydown', function(e){
+        jQuery('#hello_meeting_name_field').bind('keydown', function(e){
             if(e.keyCode == 9 /* TAB key */) {
             	applyFCKEditor();
             }
@@ -383,19 +383,19 @@ var HelloUtils;
     
     /** Trimpath modifiers :) */
     HelloUtils.getTrimpathModifiers = function() {
-    	if(!bbbTrimpathModifiers) {
-    	   	bbbTrimpathModifiers = {    	   		
+    	if(!helloTrimpathModifiers) {
+    	   	helloTrimpathModifiers = {    	   		
     	   	};
     	}
-    	return bbbTrimpathModifiers;
+    	return helloTrimpathModifiers;
     }
     
     /** Trimpath macros :) */
     HelloUtils.getTrimpathMacros = function() {
-        if(!bbbTrimpathMacros) {
-            bbbTrimpathMacros = '';
+        if(!helloTrimpathMacros) {
+            helloTrimpathMacros = '';
         }
-        return bbbTrimpathMacros;
+        return helloTrimpathMacros;
     }
 	
 }) ();

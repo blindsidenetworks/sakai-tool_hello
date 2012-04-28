@@ -1,4 +1,5 @@
 function HelloPermissions(data) {
+	console.log(data);
 	if(data) {
 		for(var i=0,j=data.length;i<j;i++) {
 			

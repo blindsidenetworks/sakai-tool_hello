@@ -15,7 +15,13 @@
 	<bean name="/index.htm"
 		class="org.sakaiproject.hello.tool.HelloWorldController">
 		<property name="sakaiProxy" ref="org.sakaiproject.hello.logic.SakaiProxy"/>
-        <property name="helloManager" ref="org.sakaiproject.hello.logic.HelloManager"/>
 	</bean>
+
+    <!-- Web entity provider -->
+    <bean parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
+        class="org.sakaiproject.hello.tool.entity.HelloWorldEntityProvider">
+        <property name="helloManager" ref="org.sakaiproject.hello.logic.HelloManager"/>
+        <property name="userDirectoryService" ref="org.sakaiproject.user.api.UserDirectoryService" />
+    </bean>
 
 </beans>

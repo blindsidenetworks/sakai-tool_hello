@@ -1,94 +1,83 @@
 /* Stuff that we always expect to be setup */
+//var helloSettings = Object();
 (function() {
-    // Setup Ajax defaults
-    HelloUtils.setupAjax();
-    
     // Process parameters
     var arg = HelloUtils.getParameters(); 
-    if(!arg || !arg.siteId) {
+    if(!arg || !helloToolSettings.siteId) {
+    	console.log("I'm here");
         HelloUtils.showMessage(hello_err_no_siteid, 'error');
         return;
     }
-    helloSettings.siteId = arg.siteId;
-    helloSettings.currentUser = HelloUtils.getCurrentUser();
-    helloSettings.userPerms = new helloPermissions(HelloUtils.getUserPermissions());
+    
+    // Process permissions
+    var permissions = HelloUtils.getUserPermissions();
+    helloToolSettings.userPerms = new HelloPermissions(permissions);
+
+    console.log(helloToolSettings);
     
     // We need the toolbar in a template so we can swap in the translations
-    HelloUtils.render('bbb_toolbar_template',{},'bbb_toolbar');
-    
-    bbbInterval = HelloUtils.autorefreshInterval();
-	bbbAddUpdateFormConfigParameters = HelloUtils.addUpdateFormConfigParameters();
+    HelloUtils.render('hello_toolbar_template', {}, 'hello_toolbar');
     
     $('#hello_home_link').bind('click',function(e) {
-        return switchState('currentMeetings');
+        return switchState('listItems');
     });
 
-    $('#bbb_create_meeting_link').bind('click',function(e) {
-        return switchState('addUpdateMeeting');
+    $('#hello_add_item_link').bind('click',function(e) {
+        return switchState('addUpdateItem');
     });
 
-    $('#bbb_end_meetings_link').bind('click',HelloUtils.endAllMeetingsForCurrentSite);
+    $('#hello_options_link').bind('click',function(e) {
+        return switchState('options');
+    });
 
-    $('#bbb_permissions_link').bind('click',function(e) {
+    $('#hello_permissions_link').bind('click',function(e) {
         return switchState('permissions');
     });
 
-    $('#bbb_recordings_link').bind('click',function(e) {
-        return switchState('recordings');
-    });
-    
     // This is always showing in every state.
-    $('#bbb_home_link').show();
-    $('#bbb_recordings_link').show();
+    $('#hello_home_link').show();
 
     // Now switch into the requested state
-    if(bbbCurrentUser != null) {
-        switchState(arg.state,arg);
+    if(helloSettings.userId != null) {
+        switchState(arg.state, arg);
     } else {
         HelloUtils.showMessage(bbb_err_no_user, 'error');
-        jQuery('#bbb_container').empty();
+        jQuery('#hello_container').empty();
     }
     
-    // If configured, show text notice (first time access)
-    HelloUtils.addNotice();
 })();
 
 function switchState(state,arg) {
-	if ( bbbCheckOneMeetingAvailabilityId != null ) clearInterval(bbbCheckOneMeetingAvailabilityId);
-	if ( bbbCheckAllMeetingAvailabilityId != null ) clearInterval(bbbCheckAllMeetingAvailabilityId);
-	if ( bbbCheckRecordingAvailabilityId != null ) clearInterval(bbbCheckRecordingAvailabilityId);
-	if ( bbbRefreshRecordingListId != null ) clearInterval(bbbRefreshRecordingListId);
 	
     // Make sure we have the correct server time (needed if user duplicated tab/window)
-	bbbServerTimeStamp = HelloUtils.updateServerTime();
+	//helloServerTimeStamp = HelloUtils.updateServerTime();
 	
     HelloUtils.hideMessage();
-    if('currentMeetings' === state) {
-        $('#bbb_recordings_link').parent().parent().show();
+    if('listItems' === state) {
 
         // show permissions links only if site maintainer
-        if(bbbUserPerms.siteUpdate) {
-            $('#bbb_permissions_link').parent().parent().show();
+        if(helloSettings.userPerms.siteUpdate) {
+            $('#hello_permissions_link').parent().parent().show();
         }else{
-            $('#bbb_permissions_link').parent().parent().hide();
+            $('#hello_permissions_link').parent().parent().hide();
         }
         
         // show links if user has appropriate permissions
-        if(bbbUserPerms.bbbCreate) {   
-            $('#bbb_create_meeting_link').parent().parent().show();     
+        if(helloSettings.userPerms.helloCreate) {   
+            $('#hello_add_item_link').parent().parent().show();     
         }else{
-            $('#bbb_create_meeting_link').parent().parent().hide();       
+            $('#hello_add_item_link').parent().parent().hide();       
         }
-        if(bbbUserPerms.bbbDeleteAny) {   
+        if(helloSettings.userPerms.helloCreate) {   
             $('#bbb_end_meetings_link').parent().parent().show();        
         }else{
             $('#bbb_end_meetings_link').parent().parent().hide();         
         }
         
-        // show meeting list
-        if(bbbUserPerms.bbbViewMeetingList) {
+        // show list
+        if(helloSettings.userPerms.helloViewList) {
             // Get meeting list
-            refreshMeetingList();
+            refreshList();
             
             // watch for permissions changes, check meeting dates
             for(var i=0,j=bbbCurrentMeetings.length;i<j;i++) {
@@ -143,7 +132,7 @@ function switchState(state,arg) {
             $('#bbb_content').empty();
         }
         
-    } else if('addUpdateMeeting' === state) {
+    } else if('addUpdateItem' === state) {
         $('#bbb_recordings_link').parent().parent().hide();
         $('#bbb_create_meeting_link').parent().parent().hide();
         $('#bbb_end_meetings_link').parent().parent().hide();
@@ -211,11 +200,13 @@ function switchState(state,arg) {
             HelloUtils.adjustFrameHeight();
         });
         
-    } else if('permissions' === state) {
-        $('#bbb_recordings_link').parent().parent().hide();
+    } else if('options' === state) {
         $('#bbb_create_meeting_link').parent().parent().hide();
-        $('#bbb_end_meetings_link').parent().parent().hide();
         $('#bbb_permissions_link').parent().parent().hide();
+
+    } else if('permissions' === state) {
+        $('#hello_create_meeting_link').parent().parent().hide();
+        $('#hello_permissions_link').parent().parent().hide();
 
         HelloUtils.render('bbb_permissions_template', {'permissions': HelloUtils.getSitePermissions()}, 'bbb_content');
         
@@ -234,144 +225,6 @@ function switchState(state,arg) {
 
             HelloUtils.adjustFrameHeight();
         });
-    } else if('joinMeeting' === state || 'meetingInfo' === state) {
-        $('#bbb_recordings_link').parent().parent().hide();
-        $('#bbb_create_meeting_link').parent().parent().hide();
-        $('#bbb_end_meetings_link').parent().parent().hide();
-        $('#bbb_permissions_link').parent().parent().hide();
-
-        if(arg && arg.meetingId) {
-        	var meeting = HelloUtils.getMeeting(arg.meetingId); 
-        	if(meeting) {
-        	   HelloUtils.render('bbb_meeting-info_template', {'meeting': meeting}, 'bbb_content');
-        	   $(document).ready(function() {
-        		   HelloUtils.checkOneMeetingAvailability(arg.meetingId);
-        		   HelloUtils.checkRecordingAvailability(arg.meetingId);
-                   HelloUtils.adjustFrameHeight();
-        	   });
-            
-               bbbCheckOneMeetingAvailabilityId = setInterval("HelloUtils.checkOneMeetingAvailability('" + arg.meetingId + "')", bbbInterval.meetings);
-        	   bbbCheckRecordingAvailabilityId = setInterval( "HelloUtils.checkRecordingAvailability('" + arg.meetingId + "')" , bbbInterval.recordings);
-        	
-        	}else{
-        	   HelloUtils.hideMessage();
-        	   HelloUtils.showMessage(bbb_err_meeting_unavailable_instr, 'warning', bbb_err_meeting_unavailable, false);
-        	   HelloUtils.adjustFrameHeight();
-        	}
-        }else{
-        	switchState('currentMeetings');
-        }
-    } else if('recordings' === state) {
-        $('#bbb_create_meeting_link').parent().parent().hide();
-        $('#bbb_end_meetings_link').parent().parent().hide();
-        $('#bbb_permissions_link').parent().parent().hide();
-
-        // show meeting list
-        if(bbbUserPerms.bbbViewMeetingList) {
-            // Get recording list
-        	refreshRecordingList();
-
-        	// watch for permissions changes, check meeting dates
-            for(var i=0,j=bbbCurrentRecordings.length;i<j;i++) {
-            	bbbCurrentRecordings[i].ownerId = "";
-                HelloUtils.setRecordingPermissionParams(bbbCurrentRecordings[i]);
-            }
-            
-            HelloUtils.render('bbb_recordings_template',{'recordings':bbbCurrentRecordings,'stateFunction':'recordings'},'bbb_content');
-
-            $(document).ready(function() {
-                // auto hide actions
-                jQuery('.meetingRow')
-                    .bind('mouseenter', function() {
-                        jQuery(this).find('div.itemAction').show();
-                        jQuery(this).addClass('bbb_even_row');
-                    })
-                    .bind('mouseleave', function() {
-                        jQuery(this).find('div.itemAction').hide();
-                        jQuery(this).removeClass('bbb_even_row');
-                    }
-                );
-                
-                // add sorting capabilities
-                $("#bbb_meeting_table").tablesorter({
-                    cssHeader:'bbb_sortable_table_header',
-                    cssAsc:'bbb_sortable_table_header_sortup',
-                    cssDesc:'bbb_sortable_table_header_sortdown',
-                    headers: { /*3: {sorter: false}*/ },
-                    // Sort DESC status:
-                    sortList: (bbbCurrentRecordings.length > 0) ? [[0,0],[2,0]] : []
-                });
-                
-                HelloUtils.adjustFrameHeight();
-            });
-
-            bbbRefreshRecordingListId = setInterval("switchState('recordings')", bbbInterval.recordings);
-        }else{
-            // warn about lack of permissions
-            if(bbbUserPerms.siteUpdate) {
-                HelloUtils.showMessage(bbb_err_no_tool_permissions_maintainer);
-            }else{
-                HelloUtils.showMessage(bbb_err_no_tool_permissions);
-            }
-            $('#bbb_content').empty();
-        }
-    } else if('recordings_meeting' === state) {
-    	$('#bbb_create_meeting_link').parent().parent().hide();
-    	$('#bbb_end_meetings_link').parent().parent().hide();
-    	$('#bbb_permissions_link').parent().parent().hide();
-
-    	if(arg && arg.meetingId) {
-    	    if(bbbUserPerms.bbbViewMeetingList) {
-                // Get meeting list
-            	refreshRecordingList(arg.meetingId);
-
-            	// watch for permissions changes, check meeting dates
-                for(var i=0,j=bbbCurrentRecordings.length;i<j;i++) {
-                	bbbCurrentRecordings[i].ownerId = "";
-                    HelloUtils.setRecordingPermissionParams(bbbCurrentRecordings[i]);
-                }
-    	        
-                HelloUtils.render('bbb_recordings_template',{'recordings':bbbCurrentRecordings, 'stateFunction':'recordings_meeting'},'bbb_content');
-
-    	        $(document).ready(function() {
-    	            // auto hide actions
-    	            jQuery('.meetingRow')
-    	                .bind('mouseenter', function() {
-    	                    jQuery(this).find('div.itemAction').show();
-    	                    jQuery(this).addClass('bbb_even_row');
-    	                })
-    	                .bind('mouseleave', function() {
-    	                    jQuery(this).find('div.itemAction').hide();
-    	                    jQuery(this).removeClass('bbb_even_row');
-    	                }
-    	            );
-    	            
-    	            // add sorting capabilities
-    	            $("#bbb_meeting_table").tablesorter({
-    	                cssHeader:'bbb_sortable_table_header',
-    	                cssAsc:'bbb_sortable_table_header_sortup',
-    	                cssDesc:'bbb_sortable_table_header_sortdown',
-    	                headers: { /*3: {sorter: false}*/ },
-    	                // Sort DESC status:
-    	                sortList: (bbbCurrentRecordings.length > 0) ? [[2,0]] : []
-    	            });
-
-    	            HelloUtils.adjustFrameHeight();
-    	        });
-
-    	        bbbRefreshRecordingListId = setInterval("switchState('recordings_meeting',{'meetingId':'" + arg.meetingId + "'})", bbbInterval.recordings);
-            }else{
-                // warn about lack of permissions
-                if(bbbUserPerms.siteUpdate) {
-                    HelloUtils.showMessage(bbb_err_no_tool_permissions_maintainer);
-                }else{
-                    HelloUtils.showMessage(bbb_err_no_tool_permissions);
-                }
-                $('#bbb_content').empty();
-            }
-    	}else{
-    		switchState('recordings');
-    	}
     }
 }
 

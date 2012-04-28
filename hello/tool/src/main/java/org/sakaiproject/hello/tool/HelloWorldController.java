@@ -22,8 +22,6 @@ public class HelloWorldController implements Controller {
 
 	@Setter	@Getter
 	private SakaiProxy sakaiProxy = null;
-	@Setter	@Getter
-	private HelloManager helloManager = null;
 	
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
@@ -31,15 +29,11 @@ public class HelloWorldController implements Controller {
 		if(logger.isDebugEnabled()) logger.debug("handleRequest");
 
 		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("currentSiteId", sakaiProxy.getCurrentSiteId());
-		map.put("userDisplayName", sakaiProxy.getCurrentUserDisplayName());
-        map.put("currentToolId", sakaiProxy.getCurrentToolId());
-        map.put("helloManager", helloManager.getHellos().toString() );
 
+		// Minimal data required to show the tool in a proper way
 		map.put("siteId", sakaiProxy.getCurrentSiteId());
 		map.put("language", sakaiProxy.getUserLanguageCode());
 		map.put("skin", sakaiProxy.getSakaiSkin());
-		//map.put("timezoneoffset", sakaiProxy.getUserTimezone());
         
         return new ModelAndView("hello", map);
 	}

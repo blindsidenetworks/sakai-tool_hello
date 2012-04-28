@@ -44,7 +44,12 @@
             async: false,
             dataType: 'json'
         });
-        console.log(helloToolSettings);
+
+        var arg = HelloUtils.getParameters();
+        helloToolSettings.siteId='${siteId}';
+        helloToolSettings.skin='${skin}';
+        helloToolSettings.language='${language}';
+        helloToolSettings.toolId=arg['sakai.tool.placement.id'];
 
         // load Sakai skin
         $.ajax({
@@ -73,7 +78,6 @@
         });
     });
     </script>
-    
     
     <title>Hello Tool</title>
 </head>
