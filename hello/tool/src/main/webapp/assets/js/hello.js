@@ -20,8 +20,10 @@ var helloErrorLog = new Object();
     //HelloUtils.render('hello_toolbar_template', {}, 'hello_toolbar');
     //console.log('rendered toolbar');
 
-    // Now we render the footer
-    HelloUtils.render('hello_footer_template', {'helloVersionTag':helloToolSettings.version + '_' + helloToolSettings.buildSerial}, 'hello_footer');
+    // If user is allowed to site updates render the footer
+    if(helloToolSettings.userPerms.siteUpdate) {
+        HelloUtils.render('hello_footer_template', {'versionTag' : helloToolSettings.version + '_' + helloToolSettings.buildSerial}, 'hello_footer');
+    }
     
     $('#hello_home_link').bind('click',function(e) {
         return switchState('listItems');
@@ -43,11 +45,16 @@ var helloErrorLog = new Object();
     $('#hello_home_link').show();
 
     // Now switch into the requested state
-    if(helloToolSettings.userId != null) {
-        switchState(arg.state, arg);
+    if(arg.state) {
+    	if(helloToolSettings.userId != null) {
+    		switchState(arg.state, arg);
+    	} else {
+    		HelloUtils.showMessage(bbb_err_no_user, 'error');
+    		$('#hello_container').empty();
+    	}
     } else {
-        HelloUtils.showMessage(bbb_err_no_user, 'error');
-        jQuery('#hello_container').empty();
+		$('#hello_container').empty();
+    	
     }
     
 })();

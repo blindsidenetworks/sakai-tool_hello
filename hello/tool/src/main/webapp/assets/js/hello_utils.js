@@ -156,16 +156,20 @@ var HelloUtils;
 	// Convenience function for rendering a trimpath template
 	HelloUtils.render = function(templateName, contextObject, output) {	
 		contextObject._MODIFIERS = HelloUtils.getTrimpathModifiers();
+		console.log(contextObject);
 		var templateNode = document.getElementById(templateName);
 		var firstNode = templateNode.firstChild;
+		console.log(firstNode);
 		var template = HelloUtils.getTrimpathMacros();
 		if ( firstNode && ( firstNode.nodeType === 8 || firstNode.nodeType === 4))
   			template += templateNode.firstChild.data.toString();
    	 	 else
    			template += templateNode.innerHTML.toString();
+		console.log(template);
 
 		var trimpathTemplate = TrimPath.parseTemplate(template,templateName);
 
+		console.log(trimpathTemplate);
    		var render = trimpathTemplate.process(contextObject);
 
 		if (output)
@@ -384,8 +388,7 @@ var HelloUtils;
     /** Trimpath modifiers :) */
     HelloUtils.getTrimpathModifiers = function() {
     	if(!helloTrimpathModifiers) {
-    	   	helloTrimpathModifiers = {    	   		
-    	   	};
+    	   	helloTrimpathModifiers = {};
     	}
     	return helloTrimpathModifiers;
     }
