@@ -62,24 +62,6 @@ var HelloUtils;
 	}
 	
     
-    // Get tool version
-    HelloUtils.getToolVersion = function() {
-
-    	var response = Object();
-
-    	jQuery.ajax( {
-            url: "/direct/hello-tool/getToolVersion.json",
-            dataType : "json",
-            async : false,
-            success : function(version) {
-            	response = version;
-            }
-        });
-
-    	return response;
-    }
-
-    
     // Get user selection types
     HelloUtils.getUserSelectionTypes = function() {
     	var selTypes = {
@@ -134,42 +116,19 @@ var HelloUtils;
         return perms;
     }
 
-	// Get notice message to be displayed on the UI (first time access)
-    HelloUtils.autorefreshInterval = function() {
-		var interval = [];
-		interval.meetings = 30000;
-		interval.recordings = 60000;
-        jQuery.ajax( {
-            url: "/direct/hello-meeting/getAutorefreshInterval.json",
-            dataType : "json",
-            async : false,
-            success : function(autorefresh) {
-            	if(autorefresh) {
-            		interval.meetings = autorefresh.meetings;
-            		interval.recordings = autorefresh.recordings;
-            	}
-            }
-        });
-        return interval;
-    }
-    
 	// Convenience function for rendering a trimpath template
 	HelloUtils.render = function(templateName, contextObject, output) {	
 		contextObject._MODIFIERS = HelloUtils.getTrimpathModifiers();
-		console.log(contextObject);
 		var templateNode = document.getElementById(templateName);
 		var firstNode = templateNode.firstChild;
-		console.log(firstNode);
 		var template = HelloUtils.getTrimpathMacros();
 		if ( firstNode && ( firstNode.nodeType === 8 || firstNode.nodeType === 4))
   			template += templateNode.firstChild.data.toString();
    	 	 else
    			template += templateNode.innerHTML.toString();
-		console.log(template);
 
 		var trimpathTemplate = TrimPath.parseTemplate(template,templateName);
 
-		console.log(trimpathTemplate);
    		var render = trimpathTemplate.process(contextObject);
 
 		if (output)

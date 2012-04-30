@@ -5,7 +5,6 @@ var helloErrorLog = new Object();
 	// Process parameters
     var arg = HelloUtils.getParameters(); 
     if(!arg || !helloToolSettings.siteId) {
-    	console.log("I'm here");
         HelloUtils.showMessage(hello_err_no_siteid, 'error');
         return;
     }
