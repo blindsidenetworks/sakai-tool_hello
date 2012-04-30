@@ -1,5 +1,5 @@
-<div id="hello_toolbar_template" style="display:none;"><!--
-<ul id="hello_toolbar_items" class="navIntraTool actionToolBar" role="menu">
+<div id="hello_options_template" style="display:none;"><!--
+<ul id="hello_options_items" class="navIntraTool actionToolBar" role="menu">
     <li class="firstToolBarItem" role="menuitem">
           <span><a id="hello_list_link" title="\${hello_list_tooltip}" href="javascript:;">\${hello_list_label}</a></span>
     </li>

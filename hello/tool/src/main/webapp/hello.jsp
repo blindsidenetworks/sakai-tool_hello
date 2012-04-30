@@ -15,7 +15,7 @@
     <link media="all" href="assets/css/hello.css" rel="stylesheet" type="text/css" />
 
     <!-- External Libraries -->
-    <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery/1.3.2/jquery-1.3.2.min.js"></script>
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery.i18n.properties/1.0.9/jquery.i18n.properties.min.js"></script>
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery.tablesorter/2.0.5/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery.datepick/4.0.6/jquery.datepick.min.js"></script>
@@ -61,7 +61,7 @@
             dataType: 'text/css'
         });
         // load I18N files
-        $.i18n.properties({
+        jQuery.i18n.properties({
             name:       'ToolMessages', 
             path:       'lang/', 
             language:   '${language}', 
@@ -85,23 +85,23 @@
 
 <div id="hello_toolbar" class="portletBody">
     <!-- Toolbar Start -->
+    <!--
     <ul class="navIntraTool actionToolBar" role="menu">
        <li class="firstToolBarItem" role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-list" title="Hello Item List">Hello Item List</a></span></li>
        <li role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-new" title="Add Hello Item">Add Hello Item</a></span></li>
        <li role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=permissions-edit" title="Permissions">Permissions</a></span></li>
        <li role="menuitem"><span><a href="/direct/hello-tool/test" title="Test">Test</a></span></li>
     </ul>
+    -->
 </div>
 <br />
 <div id="hello_messages" style="display: none"></div>
-<div id="hello_container">
-    <div id="hello_content">
-    This is a test
-    </div>
-</div>
+<div id="hello_container"></div>
 <div id="hello_footer"></div>
 
  
+<jsp:directive.include file="/templates/toolbar.jsp"/>
+<jsp:directive.include file="/templates/test.jsp"/>
 <jsp:directive.include file="/templates/footer.jsp"/>
 
 

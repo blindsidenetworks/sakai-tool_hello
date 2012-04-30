@@ -25,6 +25,67 @@ var HelloUtils;
 	var helloTrimpathModifiers = null;
 	var helloTrimpathMacros = null;
 
+	// Custom calls
+	HelloUtils.getTest = function() {
+		var response = "";
+		jQuery.ajax( {
+	 		url : "/direct/hello-tool/test.json",
+	   		dataType : "text",
+			type:"GET",
+            async : false,
+		   	success : function(t) {
+				response = t;
+			},
+			error : function(xmlHttpRequest,status,error) {
+				HelloUtils.handleError(hello_err_internal, xmlHttpRequest.status, xmlHttpRequest.statusText);
+				console.log(xmlHttpRequest.status);
+				console.log(xmlHttpRequest.statusText);
+			}
+	  	});
+
+		return response;
+		
+	}
+	
+	HelloUtils.getInfo = function() {  
+    	var info = null;
+
+        jQuery.ajax( {
+            url: "/direct/bbb-meeting/" + meetingId + "/getMeetingInfo.json",
+            dataType : "json",
+            async : false,
+            success : function(data) {
+            	info = data;
+            },
+            error : function(xmlHttpRequest,status,error) {
+            	HelloUtils.handleError(hello_err_internal, xmlHttpRequest.status, xmlHttpRequest.statusText);
+                return null;
+            }
+        });
+        return info;
+    }
+
+    
+	HelloUtils.endMeeting = function(name, meetingID) {
+		var question = bbb_action_end_meeting_question(unescape(name));
+	
+		if(!confirm(question)) return;
+		
+		jQuery.ajax( {
+	 		url : "/direct/bbb-meeting/endMeeting?meetingID=" + meetingID,
+			dataType:'text',
+			type:"GET",
+		   	success : function(result) {
+				switchState('currentMeetings');
+			},
+			error : function(xmlHttpRequest,status,error) {
+                var msg = bbb_err_end_meeting(name);
+                BBBUtils.handleError(msg, xmlHttpRequest.status, xmlHttpRequest.statusText);
+			}
+	  	});
+	}
+
+	
 	// Get the current user from EB
 	HelloUtils.getCurrentUser = function() {
 		var user = null;
@@ -117,7 +178,7 @@ var HelloUtils;
     }
 
 	// Convenience function for rendering a trimpath template
-	HelloUtils.render = function(templateName, contextObject, output) {	
+	HelloUtils.render = function(templateName, contextObject, output) {
 		contextObject._MODIFIERS = HelloUtils.getTrimpathModifiers();
 		var templateNode = document.getElementById(templateName);
 		var firstNode = templateNode.firstChild;
