@@ -13,8 +13,6 @@ var helloErrorLog = new Object();
 	var permissions = HelloUtils.getUserPermissions();
 	helloToolSettings.userPerms = new HelloPermissions(permissions);
 
-	console.log(helloToolSettings);
-
 	// We need the toolbar in a template so we can swap in the translations
 	HelloUtils.render('hello_toolbar_template', {}, 'hello_toolbar');
 

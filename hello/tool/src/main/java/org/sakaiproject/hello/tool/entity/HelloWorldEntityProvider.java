@@ -43,7 +43,7 @@ import org.sakaiproject.hello.model.Hello;
 @Setter	@Getter
 public class HelloWorldEntityProvider extends AbstractEntityProvider implements RESTful {
 
-	private static final Logger logger = Logger.getLogger(HelloWorldEntityProvider.class);
+    protected final Logger logger = Logger.getLogger(getClass());
 
 	private HelloManager helloManager = null;
 	private UserDirectoryService userDirectoryService = null;
