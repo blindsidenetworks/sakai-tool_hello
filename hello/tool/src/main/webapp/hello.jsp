@@ -6,6 +6,7 @@
 
     <!-- External Css -->
     <link media="all" href="assets/css/libs/jquery.datepick/4.0.6/redmond.datepick.css" rel="stylesheet" type="text/css" />
+    <link media="all" href="assets/css/libs/jquery-ui-lightness/1.8.21/jquery-ui.custom.css" rel="stylesheet" type="text/css" />
 
     <!-- Sakai Css -->
     <link media="all" href="/library/skin/tool_base.css" rel="stylesheet" type="text/css" />
@@ -22,6 +23,7 @@
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery.timePicker/0.3.0/jquery.timePicker.min.js"></script>
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery.tipTip/1.3.0/jquery.tipTip.minified.js"></script>
     <script type="text/javascript" language="JavaScript" src="assets/js/libs/trimpath/1.0.38/trimpath.js"></script>
+    <script type="text/javascript" language="JavaScript" src="assets/js/libs/jquery-ui/1.8.21/jquery-ui.custom.min.js"></script>
 
     <!-- Sakai Libraries -->
     <script type="text/javascript" language="JavaScript" src="/library/editor/FCKeditor/fckeditor.js"></script>

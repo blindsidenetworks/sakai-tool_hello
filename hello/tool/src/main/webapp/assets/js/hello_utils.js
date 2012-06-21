@@ -38,8 +38,8 @@ var HelloUtils;
 			},
 			error : function(xmlHttpRequest,status,error) {
 				HelloUtils.handleError(hello_err_internal, xmlHttpRequest.status, xmlHttpRequest.statusText);
-				console.log(xmlHttpRequest.status);
-				console.log(xmlHttpRequest.statusText);
+				//console.log(xmlHttpRequest.status);
+				//console.log(xmlHttpRequest.statusText);
 			}
 	  	});
 
@@ -181,33 +181,33 @@ var HelloUtils;
 	HelloUtils.render = function(templateName, contextObject, output) {
 		contextObject._MODIFIERS = HelloUtils.getTrimpathModifiers();
 		
-		console.log(contextObject);
+		//console.log(contextObject);
 
 		var templateNode = document.getElementById(templateName);
 		var firstNode = templateNode.firstChild;
    		
-		console.log(firstNode);
+		//console.log(firstNode);
 		
 		var template = HelloUtils.getTrimpathMacros();
 		
-		console.log(template);
+		//console.log(template);
 
 		if ( firstNode && ( firstNode.nodeType === 8 || firstNode.nodeType === 4))
   			template += templateNode.firstChild.data.toString();
    	 	 else
    			template += templateNode.innerHTML.toString();
 		
-		console.log(template);
+		//console.log(template);
 		
-   		console.log(templateName);
+   		//console.log(templateName);
 
    		var trimpathTemplate = TrimPath.parseTemplate(template,templateName);
 
-   		console.log(trimpathTemplate);
+   		//console.log(trimpathTemplate);
 
    		var render = trimpathTemplate.process(contextObject);
    		
-   		console.log(render);
+   		//console.log(render);
 		
    		if (output)
 			document.getElementById(output).innerHTML = render;
