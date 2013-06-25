@@ -13,8 +13,8 @@
 	</bean>
 	
 	<bean name="/index.htm"
-		class="org.sakaiproject.hello.tool.HelloWorldController">
-		<property name="sakaiProxy" ref="org.sakaiproject.hello.logic.SakaiProxy"/>
+		class="org.sakaiproject.hello.tool.HelloController">
+<!--		<property name="sakaiProxy" ref="org.sakaiproject.hello.logic.SakaiProxy"/> -->
         <property name="helloManager" ref="org.sakaiproject.hello.logic.HelloManager"/>
 	</bean>
 

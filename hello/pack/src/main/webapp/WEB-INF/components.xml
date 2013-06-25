@@ -21,7 +21,9 @@
 	<!-- HelloManager -->
 	<bean id="org.sakaiproject.hello.logic.HelloManager"
     	class="org.sakaiproject.hello.logic.HelloManagerImpl"
-    	init-method="init" />
+        init-method="init">
+            <property name="sakaiProxy" ref="org.sakaiproject.hello.logic.SakaiProxy" />
+    </bean>
 	
 
 </beans>

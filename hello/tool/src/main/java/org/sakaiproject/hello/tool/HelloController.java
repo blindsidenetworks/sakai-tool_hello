@@ -16,21 +16,21 @@ import org.springframework.web.servlet.mvc.Controller;
 import org.sakaiproject.hello.logic.HelloManager;
 import org.sakaiproject.hello.logic.SakaiProxy;
 
-public class HelloWorldController implements Controller {
+public class HelloController implements Controller {
 
-    private Logger logger = Logger.getLogger(HelloWorldController.class);
+    private Logger logger = Logger.getLogger(HelloController.class);
 
-	@Setter
-	@Getter
-	private SakaiProxy sakaiProxy = null;
-
-	@Setter
-	@Getter
+	@Setter @Getter
 	private HelloManager helloManager = null;
+
+	//@Getter @Setter
+    //private SakaiProxy sakaiProxy = null;
 	
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
+        SakaiProxy sakaiProxy = helloManager.getSakaiProxy();
+
         // build url
         StringBuilder url = new StringBuilder("/hello-tool/hello.html?");
         url.append("&siteId=").append(sakaiProxy.getCurrentSiteId());
