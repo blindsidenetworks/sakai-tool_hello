@@ -27,6 +27,20 @@ public interface SakaiProxy {
 	public String getCurrentUserDisplayName();
 	
     /**
+     * Get current user display id
+     * 
+     * @return
+     */
+    public String getCurrentUserDisplayId();
+
+    /**
+     * Get current user enterprise id
+     * 
+     * @return
+     */
+	public String getCurrentUserEid();
+	
+    /**
     * Get current tool id
     * 
     * @return
@@ -66,4 +80,6 @@ public interface SakaiProxy {
 
 	public String getUserLanguageCode();
 
+	public String getCurrentSiteContext();
+	
 }

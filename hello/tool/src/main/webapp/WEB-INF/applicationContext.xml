@@ -10,9 +10,10 @@
     </bean>
     -->
     
-    <!-- Web entity provider -->
+    <!-- Web entity provider 
+    -->
     <bean parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
-        class="org.sakaiproject.hello.tool.entity.HelloWorldEntityProvider">
+        class="org.sakaiproject.hello.tool.entity.HelloWebEntityProvider">
     </bean>
            
 </beans>

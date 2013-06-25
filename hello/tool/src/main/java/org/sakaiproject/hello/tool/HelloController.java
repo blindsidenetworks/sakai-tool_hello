@@ -31,6 +31,31 @@ public class HelloController implements Controller {
 		
         SakaiProxy sakaiProxy = helloManager.getSakaiProxy();
 
+        // check if Sakai proxy was successfully initialized
+        if(sakaiProxy == null) throw new Exception("sakaiProxy MUST be initialized.");
+
+        // check if user is logged in
+        String userId = sakaiProxy.getCurrentUserId();
+        if(userId == null) throw new Exception("You must be logged in to use this tool.");
+
+        String userEid = sakaiProxy.getCurrentUserEid();
+        String userDisplayId = sakaiProxy.getCurrentUserDisplayId();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        ///////////////////////////////////
+        //  Controller logic starts here   //
+        ///////////////////////////////////
+        
+        // Minimal data required to show the tool in a proper way
+        map.put("userId", userId);
+        map.put("userEid", userEid);
+        map.put("userDisplayId", userDisplayId);
+        map.put("siteId", sakaiProxy.getCurrentSiteContext());
+        map.put("language", sakaiProxy.getUserLanguageCode());
+        map.put("toolSkinCSS", sakaiProxy.getToolSkinCSS(sakaiProxy.getSkinRepoProperty()));
+
+        
         // build url
         StringBuilder url = new StringBuilder("/hello-tool/hello.html?");
         url.append("&siteId=").append(sakaiProxy.getCurrentSiteId());
@@ -47,13 +72,12 @@ public class HelloController implements Controller {
         //return null;
 		
 		
-		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("currentSiteId", sakaiProxy.getCurrentSiteId());
 		map.put("userDisplayName", sakaiProxy.getCurrentUserDisplayName());
         map.put("currentToolId", sakaiProxy.getCurrentToolId());
         map.put("helloManager", helloManager.getHellos().toString() );
         
-        return new ModelAndView("index", map);
+        return new ModelAndView("hello", map);
 	}
 
 }

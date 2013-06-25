@@ -13,6 +13,7 @@ import org.sakaiproject.event.api.EventTrackingService;
 import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
+import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.util.ResourceLoader;
@@ -47,6 +48,20 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public String getCurrentUserDisplayName() {
 	   return userDirectoryService.getCurrentUser().getDisplayName();
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getCurrentUserDisplayId() {
+        return userDirectoryService.getCurrentUser().getDisplayName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getCurrentUserEid() {
+        return userDirectoryService.getCurrentUser().getEid();
+    }
 
     /**
      * {@inheritDoc}
@@ -113,6 +128,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 		}
 		return languageCode;
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getCurrentSiteContext() {
+        return toolManager.getCurrentPlacement().getContext();
+    }
 
 	/**
 	 * init - perform any actions required here for when this bean starts up

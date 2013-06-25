@@ -39,7 +39,7 @@
     $(document).ready(function(){
         // load Settings
         $.ajax({
-            url: '/direct/hello/getSettings.json',
+            url: '/direct/hello-tool/getSettings.json',
             success: function(settings) {
             	helloSettings = settings;
             },
@@ -98,7 +98,7 @@
 <jsp:directive.include file="/templates/test.jsp"/>
 <jsp:directive.include file="/templates/footer.jsp"/>
 <jsp:directive.include file="/templates/greetinglist.jsp"/>
-<jsp:directive.include file="/templates/addeditgreetings.jsp"/>
+<jsp:directive.include file="/templates/addeditgreeting.jsp"/>
 <jsp:directive.include file="/templates/permissions.jsp"/>
 
 </body>

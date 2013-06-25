@@ -1,12 +1,15 @@
 <!--  Toolbar Start -->
-<ul class="navIntraTool actionToolBar" role="menu">
-	<li class="firstToolBarItem" role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-list" title="Hello Item List">Hello Item List</a></span></li>
-	<li role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=hello-new" title="Add Hello Item">Add Hello Item</a></span></li>
-	<li role="menuitem"><span><a href="/portal/tool/${currentToolId}/index.htm?op=permissions-edit" title="Permissions">Permissions</a></span></li>
+<div id="hello_toolbar_template" style="display:none;"><!--
+<ul id="hello_toolbar_items" class="navIntraTool actionToolBar" role="menu">
+    <li class="firstToolBarItem" role="menuitem">
+          <span><a id="hello_list_link" title="\${hello_list_tooltip}" href="javascript:;">\${hello_list_label}</a></span>
+    </li>
+    <li role="menuitem">
+          <span><a id="hello_add_assignment_link" title="\${hello_add_greeting_tooltip}" href="javascript:;">\${hello_add_greeting_label}</a></span>
+    </li>
+    <li role="menuitem">
+          <span><a id="hello_permissions_link" title="\${hello_permissions_tooltip}" href="javascript:;">\${hello_permissions_label}</a></span>
+    </li>
 </ul>
-<!-- 
-The Message : ${testMessage} </br>
-Local view : ${myLocalName} </br>
-RequestURI : ${myRequestURI} </br>
-ServletPath : ${myServletPath} </br></br>
 -->
+</div>
